@@ -17,6 +17,35 @@ button:hover {
   color: #fff;
 }
 
+.card {
+  position: relative;
+}
+
+.card:active {
+  transform: scale(0.95);
+}
+
+.card .card__front {
+  position: absolute;
+  transform: rotateY(90deg);
+  transition: all ease-in 0.2s;
+}
+
+.flipped .card__front {
+  transform: rotateY(0deg);
+  transition-delay: 0.2s;
+}
+
+.card .card__back {
+  transition: all ease-in 0.2s;
+  transition-delay: 0.2s;
+}
+
+.flipped .card__back {
+  transform: rotateY(90deg);
+  transition-delay: 0s
+}
+
 .card-grid {
   width: 100%;
   margin-top: 40px;

@@ -4,12 +4,12 @@ import './App.css';
 import Card from './components/Card/Card';
 
 const cardItems = [
-  { src: '/img/helmet-1.png' },
-  { src: '/img/potion-1.png' },
-  { src: '/img/ring-1.png' },
-  { src: '/img/scroll-1.png' },
-  { src: '/img/shield-1.png' },
-  { src: '/img/sword-1.png' },
+  { src: '/img/helmet-1.png', matched: false },
+  { src: '/img/potion-1.png', matched: false },
+  { src: '/img/ring-1.png', matched: false },
+  { src: '/img/scroll-1.png', matched: false },
+  { src: '/img/shield-1.png', matched: false },
+  { src: '/img/sword-1.png', matched: false },
 ];
 
 function App() {
@@ -21,14 +21,23 @@ function App() {
   useEffect(() => {
     if (choiceOne && choiceTwo) {
       if (choiceOne.src === choiceTwo.src) {
-        console.log('Match');
+        console.log('Matched');
+        setCards((prevCards) => {
+          return prevCards.map((card) =>
+            card.src === choiceOne.src ? { ...card, matched: true } : card
+          );
+        });
+        resetTurns();
       } else {
-        console.log('Not Match');
+        console.log('Not matched');
+        setTimeout(() => {
+          resetTurns();
+        }, 1000);
       }
-      resetTurns();
     }
-
   }, [choiceOne, choiceTwo]);
+
+  console.log(cards);
 
   const shuffleCards = () => {
     const shuffledCards = [...cardItems, ...cardItems]
@@ -51,7 +60,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Magic Match</h1>
+      <h1>Magic matched</h1>
       <button onClick={shuffleCards}>New Game</button>
       <div className="card-grid">
         {cards.map((cardItem) => (
@@ -59,6 +68,11 @@ function App() {
             key={cardItem.id}
             cardData={cardItem}
             choiceHandler={handleChoice}
+            flipped={
+              cardItem === choiceOne ||
+              cardItem === choiceTwo ||
+              cardItem.matched
+            }
           />
         ))}
       </div>
